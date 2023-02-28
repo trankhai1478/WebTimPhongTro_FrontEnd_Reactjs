@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-const InputForm = ({ label, value, setValue, type }) => {
+const InputForm = ({ label, value, setValue, type, invalidFields, setInvalidFields }) => {
     return (
         <div>
             <label htmlFor='phone' className='text-sx'>{label}</label>
@@ -9,7 +9,11 @@ const InputForm = ({ label, value, setValue, type }) => {
                 className='outline-none bg-[#e8f0f3] p-2 rounded-md w-full'
                 value={value}
                 onChange={(e) => setValue(prev => ({ ...prev, [type]: e.target.value }))}
+                onFocus={() => setInvalidFields([])}
             />
+            {invalidFields.length > 0 && invalidFields.some(i => i.name === type) &&
+                <small className='text-red-500 intalic'>{invalidFields.find(i => i.name === type)?.message}</small>}
+
         </div>
     )
 }
