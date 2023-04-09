@@ -5,7 +5,7 @@ import { ProvinceBtn } from "./index";
 
 const Province = () => {
     return (
-        <div className="flex justify-center gap-5 py-5 shadown-md">
+        <div className="flex justify-center gap-5 py-5">
             {location.map(item => {
                 return (
                     <ProvinceBtn
