@@ -1,21 +1,28 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import icons from '../../ultils/icons';
-const images = [
-    "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2022/07/19/6310726d-d075-4e35-b1cb-cf5616bf5212_1658240491.jpg",
-    "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2022/07/19/9c60836e-26b2-4737-a6c8-60cb5187fa4c_1658240485.jpg",
-    "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2022/07/19/716c753e-8e03-4cc8-9d09-e52ec19ce01b_1658240485.jpg",
-    "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2022/07/19/400e7ebd-5d88-48af-8599-0d074a1ee014_1658240494.jpg",
-]
+
 const { GrStar, RiHeartFill, RiHeartLine, BsBookmarkStarFill } = icons
-const Item = () => {
+const indexs = [0, 1, 2, 3]
+const Item = ({ images, user, title, star, description, attributes, address }) => {
+    const [isHoverHeart, setIsHoverHeart] = useState(false);
+    console.log(isHoverHeart)
     return (
         <div className="w-full flex border-t border-orange-600 py-4">
             <div className="w-2/5 flex flex-wrap gap-[2px] items-center relative cursor-pointer">
-                <img src={images[0]} alt="preview" className="w-[110px] h-[120px] object-cover" />
-                <img src={images[1]} alt="preview" className="w-[110px] h-[120px] object-cover" />
-                <img src={images[2]} alt="preview" className="w-[110px] h-[120px] object-cover" />
-                <img src={images[3]} alt="preview" className="w-[110px] h-[120px] object-cover" />
+                {images.length > 0 && images.filter((i, index) => indexs.some(i => i === index))?.map((i, index) => {
+                    return (
+                        <img key={index} src={i} alt="preview" className="w-[110px] h-[120px] object-cover" />
+                    )
+                })}
 
+                <span className="bg-overlay-70 text-white px-2 rounded-md absolute left-1 bottom-4">{`${images.length} ảnh`}</span>
+                <span
+                    className="text-white absolute right-5 bottom-1"
+                    onMouseEnter={() => setIsHoverHeart(true)}
+                    onMouseLeave={() => setIsHoverHeart(false)}>
+                    {isHoverHeart ? <RiHeartFill size={24} color="red" /> : <RiHeartLine size={24} />}
+
+                </span>
 
             </div>
 
@@ -28,8 +35,9 @@ const Item = () => {
                         <GrStar size={20} color="yellow" />
                         <GrStar size={20} color="yellow" />
                         <GrStar size={20} color="yellow" />
+                        {title}
                         {/* </span> */}
-                        <h3 className="text-red-600 font-medium ml-1">Hahaha</h3>
+                        {/* <h3 className="text-red-600 font-medium ml-1">Hahaha</h3> */}
 
                     </div>
 
@@ -38,22 +46,24 @@ const Item = () => {
                     </div>
                 </div>
                 <div className="my-2 flex items-center justify-between">
-                    <span className="font-bold text-green-600">3 triệu/tháng</span>
-                    <span>28m</span>
-                    <span>Quận Bình Thạnh,HCM</span>
+                    <span className="font-bold text-green-600">{attributes?.price}</span>
+                    <span>{attributes?.acreage}</span>
+                    <span>{address}</span>
                 </div>
-                <p className="text-gray-500">Giảm 500k cho tháng tiền phòng đầu tiên đối với các khách hàng ký hợp đồng trong tháng 4 /2023️️️Cách CV Hoàng Văn Thụ 150mCách ĐH Tài Chính…</p>
+                <p className="text-gray-500 w-full h-[50px] text-ellipsis overflow-hidden">
+                    {description}
+                </p>
                 <div className="flex items-center my-5 justify-between">
                     <div className="flex items-center">
                         <img src="https://i.bloganchoi.com/bloganchoi.com/wp-content/uploads/2022/05/hinh-avatar-doi-dep-2022-6-696x696.jpg?fit=700%2C20000&quality=95&ssl=1"
                             alt="avatar"
                             className="w-[30px] h-[30[px] object-cover rounded-full"
                         />
-                        <p>Khải Trần</p>
+                        <p>{user.name}</p>
                     </div>
                     <div className="flex items-center gap-1">
                         <button type="button" className="bg-white p-1 rounded-md">
-                            Gọi 0968618841
+                            {`Gọi ${user.phone}`}
                         </button>
                         <button type="button" className="text-blue-700 p-1 rounded-md border border-blue-700">
                             Nhắn Zalo
